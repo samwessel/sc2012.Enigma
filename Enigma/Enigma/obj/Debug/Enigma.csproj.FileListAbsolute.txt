@@ -1,0 +1,9 @@
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\Enigma.dll
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\Enigma.pdb
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\Moq.dll
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\nunit.framework.dll
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\Moq.pdb
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\bin\Debug\Moq.xml
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\obj\Debug\Enigma.dll
+C:\Users\Sam\Code\SC2012\Enigma\Enigma\Enigma\obj\Debug\Enigma.pdb
