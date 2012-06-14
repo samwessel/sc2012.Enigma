@@ -1,8 +1,81 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 
 namespace Enigma
 {
+    [TestFixture]
+    public class RotorWithReflectorTests
+    {
+        private int _reflectedOffset;
+        private Mock<IReflector> _mockReflector;
+        private int _encodedOffset;
+        private Mock<IAlphabet> _leftAlphabet;
+        private Mock<IAlphabet> _rightAlphabet;
+        private int _offset;
+        private char _retreivedCharacter;
+
+        [SetUp]
+        public void GivenReflectorWhenEncodingOffset()
+        {
+            _offset = 6;
+
+            _reflectedOffset = 11;
+            _mockReflector = new Mock<IReflector>();
+            _mockReflector.Setup(reflector => reflector.Reflect(It.IsAny<int>())).Returns(_reflectedOffset);
+
+            _retreivedCharacter = 'Z';
+            _rightAlphabet = new Mock<IAlphabet>();
+            _rightAlphabet.Setup(alphabet => alphabet.CharacterAt(It.IsAny<int>())).Returns(_retreivedCharacter);
+
+            _encodedOffset = 10;
+            _leftAlphabet = new Mock<IAlphabet>();
+            _leftAlphabet.Setup(alphabet => alphabet.IndexOf(It.IsAny<char>())).Returns(_encodedOffset);
+
+            new Rotor(_leftAlphabet.Object, _rightAlphabet.Object, _mockReflector.Object).Encode(_offset);
+        }
+
+        [Test]
+        public void RightAlphabetLooksUpCharacterAtOffset()
+        {
+            _rightAlphabet.Verify(alphabet => alphabet.CharacterAt(_offset));
+        }
+
+        [Test]
+        public void LeftAlphabetFindsIndexOfCharacterAtRightOffset()
+        {
+            _leftAlphabet.Verify(alphabet => alphabet.IndexOf(_retreivedCharacter));
+        }
+
+        [Test]
+        public void ThenReflectorReflectsEncodedOffset()
+        {
+            _mockReflector.Verify(reflector => reflector.Reflect(_encodedOffset));
+        }
+    }
+
+    public class Rotor
+    {
+        private readonly IAlphabet _leftAlphabet;
+        private readonly IAlphabet _rightAlphabet;
+        private readonly IReflector _reflector;
+
+        public Rotor(IAlphabet leftAlphabet, IAlphabet rightAlphabet, IReflector reflector)
+        {
+            _leftAlphabet = leftAlphabet;
+            _rightAlphabet = rightAlphabet;
+            _reflector = reflector;
+        }
+
+        public void Encode(int offset)
+        {
+            var characterAt = _rightAlphabet.CharacterAt(offset);
+            var encodedOffset = _leftAlphabet.IndexOf(characterAt);
+            var reflectedOffset = _reflector.Reflect(encodedOffset);
+        }
+    }
+
     [TestFixture]
     public class EnigmaMachineTests
     {
